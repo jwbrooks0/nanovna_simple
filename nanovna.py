@@ -7,6 +7,7 @@ import serial as _serial
 import numpy as _np
 import skrf as _rf
 import matplotlib.pyplot as _plt
+from serial.tools import list_ports as _list_ports
 
 # %% subfunctions
 def _plot_complex(data_rf):
@@ -196,7 +197,7 @@ class nanovna:
 		VID = 0x0483 #1155
 		PID = 0x5740 #22336
 	
-		device_list = _serial.list_ports.comports()
+		device_list = _list_ports.comports()
 		for device in device_list:
 			if device.vid == VID and device.pid == PID:
 				return device.device
