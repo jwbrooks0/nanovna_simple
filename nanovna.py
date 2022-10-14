@@ -10,16 +10,19 @@ import matplotlib.pyplot as _plt
 from serial.tools import list_ports as _list_ports
 
 # %% subfunctions
-def _plot_complex(data_rf):
+def _plot_complex(data_rf, fig=None, label=None):
 	
 	ls = None
 	marker = None
 	lw = None
 	ms = None
 	c = None
-	label = None
 	
-	fig, axes = _plt.subplots(2, 2, sharex=True)
+	if type(fig) is type(None):
+		fig, axes = _plt.subplots(2, 2, sharex=True)
+	else:
+		axes = _np.array(fig.get_axes())
+		
 	axes = axes.flatten()
 	data_rf.plot_s_mag(ax=axes[0], label=label, ls=ls, marker=marker, lw=lw, ms=ms, c=c)
 	data_rf.plot_s_re(ax=axes[1], label=label, ls=ls, marker=marker, lw=lw, ms=ms, c=c)
@@ -110,7 +113,7 @@ class nanovna:
 		return f
 	
 	def measure_S11(self, num_avg = 1, plot=False):
-		self.pause()
+		#self.pause()
 		
 		# get frequencies
 		f = self.get_frequencies()
@@ -120,7 +123,7 @@ class nanovna:
 		for i in range(num_avg):
 			data += _np.array(self.query('data').decode().strip((self._lf + self._prompt).decode()).replace('\r', 'j').replace(' ', '+').replace('+-', '-').split('\n')).astype(complex)
 		data = data.real / num_avg + 1j * data.imag / num_avg
-		self.resume()
+		#self.resume()
 			
 		# convert data to skrf network object
 		S11 = _rf.Network(s=data, frequency=f, z0=50)
@@ -214,4 +217,12 @@ class nanovna:
 if __name__ == "__main__":
  	
 	with nanovna() as vna:
-		data = vna.measure_S11(plot=True)
+		data1 = vna.measure_S11(1, plot=False)
+		data3 = vna.measure_S11(3, plot=False)
+		data10 = vna.measure_S11(10, plot=False)
+		data33 = vna.measure_S11(33, plot=False)
+		
+		fig = _plot_complex(data1, fig=None, label='1 avg')
+		fig = _plot_complex(data3, fig=fig, label='3 avg')
+		fig = _plot_complex(data10, fig=fig, label='10 avg')
+		fig = _plot_complex(data33, fig=fig, label='33 avg')
