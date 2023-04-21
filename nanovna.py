@@ -40,6 +40,7 @@ class nanovna:
 	References
 	----------
 	 * list of commands: https://github.com/Ho-Ro/nanovna-tools/blob/main/shellcommands.txt
+     * more commands: https://groups.io/g/nanovna-users/topic/list_of_nanovna_console/32286625
 	 * this code is strongly influenced by: https://github.com/Ho-Ro/nanovna-tools
 	"""
 	
@@ -134,8 +135,20 @@ class nanovna:
 		return S11
 	
 	
-	# %% misc device operation
+	# %% get dveice properties
+    
+	def info(self):
+		""" returns device info """
+		return self.query("info")
+    
+    
+	def help(self): 
+		""" returns list of device commands """
+		return self.query("help")
+    
 	
+	# %% misc device operation
+    
 	def pause(self):
 		self.write('pause')
 		
@@ -217,12 +230,17 @@ class nanovna:
 if __name__ == "__main__":
  	
 	with nanovna() as vna:
-		data1 = vna.measure_S11(1, plot=False)
-		data3 = vna.measure_S11(3, plot=False)
-		data10 = vna.measure_S11(10, plot=False)
-		data33 = vna.measure_S11(33, plot=False)
+        
+		print(vna.info())
+		print(vna.help())
 		
-		fig = _plot_complex(data1, fig=None, label='1 avg')
-		fig = _plot_complex(data3, fig=fig, label='3 avg')
-		fig = _plot_complex(data10, fig=fig, label='10 avg')
-		fig = _plot_complex(data33, fig=fig, label='33 avg')
+		if False:
+			data1 = vna.measure_S11(1, plot=False)
+			data3 = vna.measure_S11(3, plot=False)
+			data10 = vna.measure_S11(10, plot=False)
+			data33 = vna.measure_S11(33, plot=False)
+    		
+			fig = _plot_complex(data1, fig=None, label='1 avg')
+			fig = _plot_complex(data3, fig=fig, label='3 avg')
+			fig = _plot_complex(data10, fig=fig, label='10 avg')
+			fig = _plot_complex(data33, fig=fig, label='33 avg')
