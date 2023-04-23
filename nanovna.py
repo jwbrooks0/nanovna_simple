@@ -177,21 +177,21 @@ class nanovna:
 		print('Calibration completed.  ')
 		
 		
-	def set_bandwidth(self, bw=0):
-		# 0 = 4000 Hz
-		# 1 = 2000 Hz
-		# 2 = 1333 Hz
-		# 3 = 1000 Hz
-		# 4 = 800 Hz
-		# 5 = 666 Hz
-		# ...
-		# N = (4000 / (N+1)) Hz
-		self.write('bandwidth %d' % bw)
-		print("Bandwidth set to: ", self.get_bandwidth())
-		
-		
-	def get_bandwidth(self):
-		return self.query('bandwidth')
+# 	def set_bandwidth(self, bw=0):
+# 		# 0 = 4000 Hz
+# 		# 1 = 2000 Hz
+# 		# 2 = 1333 Hz
+# 		# 3 = 1000 Hz
+# 		# 4 = 800 Hz
+# 		# 5 = 666 Hz
+# 		# ...
+# 		# N = (4000 / (N+1)) Hz
+# 		self.write('bandwidth %d' % bw)
+# 		print("Bandwidth set to: ", self.get_bandwidth())
+# 		
+# 		
+# 	def get_bandwidth(self):
+# 		return self.query('bandwidth')
 		
 		
 	def setup_sweep(self, f_start_Hz, f_stop_Hz, num_points=101):
@@ -233,7 +233,7 @@ if __name__ == "__main__":
         
 		print(vna.info())
 		print(vna.help())
-		
+
 		if False:
 			data1 = vna.measure_S11(1, plot=False)
 			data3 = vna.measure_S11(3, plot=False)
